@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite Minecraft</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(180deg, #87CEEB 0%, #98D8E8 50%, #7CB342 50%, #558B2F 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .cloud {
+            position: absolute;
+            background: white;
+            width: 100px;
+            height: 40px;
+            border-radius: 0;
+            animation: float 20s infinite linear;
+            box-shadow: 
+                30px 0 0 white,
+                -30px 0 0 white,
+                0 -15px 0 white,
+                15px -15px 0 white,
+                -15px -15px 0 white;
+        }
+        
+        .cloud:nth-child(1) { top: 10%; animation-duration: 25s; }
+        .cloud:nth-child(2) { top: 30%; animation-duration: 30s; animation-delay: -10s; }
+        .cloud:nth-child(3) { top: 50%; animation-duration: 35s; animation-delay: -20s; }
+        
+        @keyframes float {
+            from { left: -200px; }
+            to { left: 100%; }
+        }
+        
+        .container {
+            background: rgba(139, 90, 43, 0.95);
+            border: 8px solid #3E2723;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 
+                0 0 0 4px #8B5A2B,
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                inset 0 0 20px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            border: 4px solid #1B5E20;
+            box-shadow: 0 4px 0 #1B5E20;
+        }
+        
+        .container::after {
+            content: '';
+            position: absolute;
+            top: -32px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 64px;
+            height: 64px;
+            background: 
+                linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%),
+                linear-gradient(135deg, #8BC34A 0%, #689F38 100%);
+            border: 2px solid #558B2F;
+        }
+        
+        h1 {
+            color: #FFD700;
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            text-shadow: 
+                4px 4px 0 #B8860B,
+                6px 6px 10px rgba(0, 0, 0, 0.5);
+            line-height: 1.8;
+            letter-spacing: 2px;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            position: relative;
+            min-height: 80px;
+        }
+        
+        button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2em;
+            padding: 20px 40px;
+            border: 4px solid #000;
+            cursor: pointer;
+            transition: all 0.1s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            box-shadow: 
+                0 8px 0 #000,
+                0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(4px);
+            box-shadow: 
+                0 4px 0 #000,
+                0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+        
+        #simBtn {
+            background: linear-gradient(180deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+        
+        #simBtn:hover {
+            background: linear-gradient(180deg, #5CBF60 0%, #4CAF50 100%);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 10px 0 #000,
+                0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        #naoBtn {
+            background: linear-gradient(180deg, #f44336 0%, #da190b 100%);
+            color: white;
+        }
+        
+        #naoBtn:hover {
+            background: linear-gradient(180deg, #ff5449 0%, #f44336 100%);
+        }
+        
+        .grass-block {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #7CB342 0%, #558B2F 100%);
+            border: 3px solid #33691E;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        .grass-block:nth-child(1) { bottom: 20px; left: 20px; animation-delay: 0s; }
+        .grass-block:nth-child(2) { bottom: 20px; right: 20px; animation-delay: 0.5s; }
+        .grass-block:nth-child(3) { top: 100px; left: 50px; animation-delay: 1s; }
+        .grass-block:nth-child(4) { top: 100px; right: 50px; animation-delay: 1.5s; }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 20px;
+                margin: 20px;
+            }
+            
+            h1 {
+                font-size: 1em;
+            }
+            
+            button {
+                font-size: 0.9em;
+                padding: 15px 25px;
+            }
+            
+            .grass-block {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clouds">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+    
+    <div class="grass-block"></div>
+    <div class="grass-block"></div>
+    <div class="grass-block"></div>
+    <div class="grass-block"></div>
+    
+    <div class="container">
+        <h1>Bora jogar Mine hoje à noite?</h1>
+        <div class="buttons">
+            <button id="simBtn">Sim!</button>
+            <button id="naoBtn">Não</button>
+        </div>
+    </div>
+    
+    <script>
+        const naoBtn = document.getElementById('naoBtn');
+        const simBtn = document.getElementById('simBtn');
+        const buttonsContainer = document.querySelector('.buttons');
+        
+        let tentativas = 0;
+        
+        naoBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const containerRect = buttonsContainer.getBoundingClientRect();
+            const btnRect = naoBtn.getBoundingClientRect();
+            
+            // Muda para position absolute no primeiro clique
+            if (tentativas === 0) {
+                naoBtn.style.position = 'absolute';
+            }
+            
+            const maxX = containerRect.width - btnRect.width;
+            const maxY = containerRect.height - btnRect.height;
+            
+            let newX, newY;
+            
+            do {
+                newX = Math.random() * maxX;
+                newY = Math.random() * maxY;
+            } while (
+                Math.abs(newX - (btnRect.left - containerRect.left)) < 100 &&
+                Math.abs(newY - (btnRect.top - containerRect.top)) < 50
+            );
+            
+            naoBtn.style.left = newX + 'px';
+            naoBtn.style.top = newY + 'px';
+            
+            tentativas++;
+            
+            if (tentativas >= 3) {
+                naoBtn.textContent = ':(';
+            }
+            if (tentativas >= 5) {
+                naoBtn.textContent = 'Por favor?';
+            }
+            if (tentativas >= 8) {
+                naoBtn.style.display = 'none';
+            }
+        });
+        
+        simBtn.addEventListener('click', function() {
+            window.location.href = 'https://instagram.com/guilherme.digitron';
+        });
+    </script>
+</body>
+</html>
