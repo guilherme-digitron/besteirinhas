@@ -3,3 +3,6 @@ Um repositório com minhas besteirinhas, pequenos projetos sem propósito de esc
 
 ### Projeto Minecraft Convite
 https://guilherme-digitron.github.io/besteirinhas/besteirinhas/index.html
+
+### Homenagem ao professor Marcos
+https://guilherme-digitron.github.io/besteirinhas/marcos/index.html
