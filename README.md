@@ -6,3 +6,6 @@ https://guilherme-digitron.github.io/besteirinhas/besteirinhas/index.html
 
 ### Homenagem ao professor Marcos
 https://guilherme-digitron.github.io/besteirinhas/marcos/index.html
+
+### Quem e esse cara ?
+https://guilherme-digitron.github.io/besteirinhas/quem-e-esse-cara/index.html
