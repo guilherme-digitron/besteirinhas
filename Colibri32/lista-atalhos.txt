@@ -1,0 +1,8 @@
+Mouse de cabeça:
+
+ctrl+alt+windows - abrir_lista_atalhos
+ctrl+alt+r - recalibrar_esp32
+
+ctrl+alt - centralizar_cursor
+
+ctrl+alt+p - alternar_pausa

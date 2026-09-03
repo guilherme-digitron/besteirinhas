@@ -1,97 +1,133 @@
-"""
-MOUSE AEREO - Leitor Serial (Windows)
---------------------------------------
-Le as linhas "dx,dy" enviadas pelo ESP32 via cabo USB
-e move o cursor do mouse de verdade.
-
-INSTALAR ANTES DE RODAR (uma vez so):
-    pip install pyserial pynput
-
-COMO USAR:
-    1. Feche o Monitor Serial da Arduino IDE (a porta so pode
-       ser usada por um programa por vez)
-    2. Descubra o numero da porta COM do ESP32:
-       Gerenciador de Dispositivos (Device Manager) -> Portas (COM & LPT)
-       Vai aparecer algo como "Silicon Labs CP210x (COM5)" ou
-       "USB-SERIAL CH340 (COM7)"
-    3. Ajuste a variavel PORTA abaixo com o numero certo
-    4. Rode: python mouse_ar_leitor.py
-    5. Para parar, feche a janela ou Ctrl+C
-"""
-
 import serial
+import socket
+import pyautogui
+import keyboard
 import time
-import traceback
-from pynput.mouse import Controller
+import os
+import glob
 
-# ============ AJUSTE AQUI ============
-PORTA = "COM4"       # troque pelo numero da sua porta COM
+# --- SELEÇÃO DE MODO ---
+print("=" * 60)
+print("SISTEMA DE MOUSE DE CABEÇA - SELEÇÃO DE CONEXÃO")
+print("=" * 60)
+print(" 1 - Usar CABO USB (Comunicação Serial)")
+print(" 2 - Usar WI-FI (Comunicação Sem Fio UDP)")
+print("=" * 60)
+opcao = input("Escolha a opção (1 ou 2): ").strip()
+
+MODO = "wifi" if opcao == "2" else "serial"
+
+PORTA_COM = 'COM3'
 BAUD_RATE = 115200
-DEBUG = True         # True = mostra tudo que chega, mesmo o que nao reconhece
-# ======================================
+UDP_PORT = 12345
 
-mouse = Controller()
+esp32_serial = None
+sock = None
+esp32_ip_cliente = None
 
-def conectar():
-    while True:
+pyautogui.PAUSE = 0 
+pyautogui.FAILSAFE = False 
+
+congelado = False
+ultima_digitacao = 0
+TEMPO_GUARDA_DIGITACAO = 0.4
+
+# Inicialização da interface escolhida
+if MODO == "serial":
+    try:
+        esp32_serial = serial.Serial(PORTA_COM, BAUD_RATE, timeout=0.1)
+        print(f"[OK] Escutando porta Serial {PORTA_COM}...")
+    except Exception as e:
+        print(f"[Erro Serial]: {e}")
+        exit()
+else:
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.bind(("0.0.0.0", UDP_PORT))
+        sock.settimeout(0.01)
+        print(f"[OK] Escutando pacotes Wi-Fi UDP na porta {UDP_PORT}...")
+    except Exception as e:
+        print(f"[Erro Wi-Fi]: {e}")
+        exit()
+
+# --- FUNÇÕES ---
+
+def abrir_lista_atalhos():
+    pasta_atual = os.path.dirname(os.path.realpath(__file__))
+    arquivos = glob.glob(os.path.join(pasta_atual, "lista-atalhos*"))
+    if arquivos:
+        os.startfile(arquivos[0])
+
+def centralizar_cursor():
+    largura, altura = pyautogui.size()
+    pyautogui.moveTo(largura // 2, altura // 2)
+
+def recalibrar_esp32():
+    if MODO == "serial" and esp32_serial and esp32_serial.is_open:
+        esp32_serial.write(b'R')
+        print("[Ação] Sinal de Recalibração enviado via Serial")
+    elif MODO == "wifi" and sock and esp32_ip_cliente:
+        sock.sendto(b'R', (esp32_ip_cliente, UDP_PORT))
+        print("[Ação] Sinal de Recalibração enviado via Wi-Fi")
+
+def alternar_pausa():
+    global congelado
+    congelado = not congelado
+    print(f"[Estado] Mouse: {'PAUSADO' if congelado else 'ATIVO'}")
+
+def registrar_digitacao(e):
+    global ultima_digitacao
+    if e.name not in ['ctrl', 'alt', 'shift', 'windows']:
+        ultima_digitacao = time.time()
+
+def ler_coordenadas():
+    global esp32_ip_cliente
+    if MODO == "serial":
+        if esp32_serial.in_waiting > 0:
+            linha = esp32_serial.readline().decode('utf-8', errors='ignore').strip()
+            esp32_serial.reset_input_buffer()
+            return linha
+    else:
         try:
-            ser = serial.Serial(PORTA, BAUD_RATE, timeout=1)
-            print(f"Conectado em {PORTA}")
-            return ser
-        except serial.SerialException:
-            print(f"Nao foi possivel abrir {PORTA}. Tentando de novo em 2s...")
-            print("Verifique se a porta esta certa e se o Monitor Serial da IDE esta fechado.")
-            time.sleep(2)
+            data, addr = sock.recvfrom(1024)
+            esp32_ip_cliente = addr[0] # Guarda o IP do ESP32 para enviar respostas
+            return data.decode('utf-8', errors='ignore').strip()
+        except socket.timeout:
+            return None
+    return None
 
-def main():
-    ser = conectar()
-    ultimo_dado = time.time()
+# Mapeamento de Atalhos
+keyboard.on_press(registrar_digitacao)
+keyboard.add_hotkey('ctrl+alt+windows', abrir_lista_atalhos)
+keyboard.add_hotkey('ctrl+alt+r', recalibrar_esp32)
+keyboard.add_hotkey('ctrl+alt', centralizar_cursor)
+keyboard.add_hotkey('ctrl+alt+p', alternar_pausa)
 
-    while True:
-        try:
-            linha = ser.readline().decode("utf-8", errors="ignore").strip()
+print("Sistema pronto. Opção de transporte ativa:", MODO.upper())
 
-            if not linha:
-                if DEBUG and (time.time() - ultimo_dado > 3):
-                    print("...nenhum dado recebido nos ultimos segundos (silencio na serial)")
-                    ultimo_dado = time.time()
-                continue
+# --- LOOP PRINCIPAL ---
+while True:
+    try:
+        linha = ler_coordenadas()
+        
+        if congelado or (time.time() - ultima_digitacao < TEMPO_GUARDA_DIGITACAO):
+            continue
 
-            ultimo_dado = time.time()
-
-            partes = linha.split(",")
-            if len(partes) != 2:
-                if DEBUG:
-                    print(f"[ignorado, formato inesperado] {linha}")
-                continue  # ignora qualquer linha que nao seja "dx,dy"
-
-            dx = int(partes[0])
-            dy = int(partes[1])
-
-            if DEBUG:
-                print(f"movendo dx={dx} dy={dy}")
-
-            mouse.move(dx, dy)
-
-        except (ValueError, UnicodeDecodeError):
-            continue  # ignora linha corrompida/lixo
-
-        except serial.SerialException:
-            print("Conexao serial perdida. Reconectando...")
-            ser.close()
-            ser = conectar()
-
-        except KeyboardInterrupt:
-            print("Encerrado pelo usuario.")
-            break
-
-        except Exception:
-            # Mostra o erro real em vez de sumir com exit code 1 sem explicação
-            print("ERRO INESPERADO:")
-            traceback.print_exc()
-            time.sleep(1)
-
-    ser.close()
-
-if __name__ == "__main__":
-    main()
+        if linha and "," in linha:
+            partes = linha.split(',')
+            if len(partes) == 2:
+                dx = int(partes[0])
+                dy = int(partes[1])
+                
+                if keyboard.is_pressed('shift'):
+                    dx = int(dx / 3)
+                    dy = int(dy / 3)
+                
+                if dx != 0 or dy != 0:
+                    pyautogui.move(dx, dy)
+                    
+    except ValueError:
+        pass
+    except KeyboardInterrupt:
+        print("\nEncerrando...")
+        break
