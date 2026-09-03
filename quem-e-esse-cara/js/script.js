@@ -1,22 +1,43 @@
 // =========================================================
-// QUEM É ESSE CARA? — interatividade
+// QUEM É ESSE CARA? v2 — interatividade
 // =========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ---------- 0. Gate / triagem ---------- */
+  const btnSingle = document.getElementById('btnSingle');
+  const btnTaken = document.getElementById('btnTaken');
+  const gateSection = document.getElementById('gate');
+
+  if (btnSingle) {
+    btnSingle.addEventListener('click', () => {
+      gateSection.style.display = 'none';
+      runOpening();
+      document.getElementById('abertura').scrollIntoView({ behavior: 'instant' in window ? 'instant' : 'auto' });
+    });
+  }
+
+  if (btnTaken) {
+    btnTaken.addEventListener('click', () => {
+      document.body.classList.add('is-blocked');
+      window.scrollTo(0, 0);
+    });
+  }
+
   /* ---------- 1. Sequência de abertura (typewriter) ---------- */
   const lines = [
-    { el: document.querySelector('.line-1'), text: 'ENTÃO... VOCÊ QUER SABER QUEM É O GUILHERME?', pause: 900 },
-    { el: document.querySelector('.line-2'), text: 'Justo.', pause: 700 },
-    { el: document.querySelector('.line-3'), text: 'Prepare-se para informações que provavelmente poderiam ter sido descobertas durante uma conversa normal.', pause: 400 },
+    { el: document.querySelector('.line-1'), text: 'Então você quer saber quem é o Guilherme?', pause: 900 },
+    { el: document.querySelector('.line-2'), text: 'Excelente decisão.', pause: 650 },
+    { el: document.querySelector('.line-3'), text: 'Ou uma decisão questionável.', pause: 500 },
+    { el: document.querySelector('.line-4'), text: 'Mas agora já estamos aqui.', pause: 300 },
   ];
   const btnConhecer = document.getElementById('btnConhecer');
   const aberturaPhoto = document.querySelector('.abertura-photo');
+  let openingStarted = false;
 
-  function typeLine(line, speed = 28) {
+  function typeLine(line, speed = 26) {
     return new Promise(resolve => {
       if (!line.el) return resolve();
-      line.el.classList.add('typing');
       let i = 0;
       const interval = setInterval(() => {
         line.el.textContent = line.text.slice(0, i + 1);
@@ -30,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function runOpening() {
+    if (openingStarted) return;
+    openingStarted = true;
     for (const line of lines) {
       await typeLine(line);
     }
@@ -39,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
       btnConhecer.removeAttribute('tabindex');
     }
   }
-  runOpening();
 
   if (btnConhecer) {
     btnConhecer.addEventListener('click', () => {
@@ -51,9 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const revealEls = document.querySelectorAll('.reveal');
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('is-visible');
     });
   }, { threshold: 0.2 });
   revealEls.forEach(el => revealObserver.observe(el));
@@ -90,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
   if (shootBtn) {
     shootBtn.addEventListener('click', () => {
-      const scored = Math.random() < 0.22; // café com leite não acerta muito
+      const scored = Math.random() < 0.22;
       const pool = scored ? hits : misses;
       shootResult.textContent = pool[Math.floor(Math.random() * pool.length)];
       shootBtn.classList.remove('shake');
@@ -113,5 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.4 });
   statusRows.forEach(row => statusObserver.observe(row));
+
+  /* ---------- 6. Hit counter (contador 90's, cosmético) ---------- */
+  const hitCounter = document.getElementById('hitCounter');
+  if (hitCounter) {
+    const base = 130482 + Math.floor(Math.random() * 40);
+    hitCounter.textContent = String(base).padStart(6, '0');
+  }
 
 });

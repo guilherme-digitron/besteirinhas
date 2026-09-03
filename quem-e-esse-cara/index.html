@@ -1,181 +1,420 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Apresentação Oficial — Guilherme</title>
-  <link rel="stylesheet" href="quem-e-esse-cara/css/style.css">
-  <meta name="description" content="Apresentação oficial de Guilherme — uma cantada tecnológica, divertida e propositalmente exagerada.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quem é esse cara?</title>
+<meta name="description" content="Uma cantada tecnológica extremamente elaborada.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bungee&family=Fredoka:wght@400;600;700&family=Metal+Mania&family=Oswald:wght@400;500;600;700&family=Press+Start+2P&family=VT323&family=Anton&family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,wght@0,500;1,500&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body class="loading">
+<body>
 
-  <!-- AVISO / MODAL -->
-  <div id="warning-modal" class="modal visible">
-    <div class="modal-inner retro">
-      <h1 class="title-glitch">ATENÇÃO</h1>
-      <h2>Este site foi desenvolvido especialmente para garotas solteiras.</h2>
+<!-- ================= MARQUEE 90's ================= -->
+<div class="marquee-bar" id="marqueeBar">
+  <div class="marquee-track">
+    <span>🚨 ATENÇÃO GAROTAS SOLTEIRAS 🚨 &nbsp; SITE OFICIAL DE APRESENTAÇÃO DO GUILHERME &nbsp; 🚨 &nbsp; MELHOR VISUALIZADO COM O CORAÇÃO ABERTO &nbsp; 🚨 &nbsp; VOCÊ FOI ESCOLHIDA PARA ESSA MISSÃO &nbsp; 🚨 &nbsp; ATENÇÃO GAROTAS SOLTEIRAS 🚨 &nbsp; SITE OFICIAL DE APRESENTAÇÃO DO GUILHERME &nbsp; 🚨 &nbsp; MELHOR VISUALIZADO COM O CORAÇÃO ABERTO &nbsp; 🚨 &nbsp; VOCÊ FOI ESCOLHIDA PARA ESSA MISSÃO &nbsp; 🚨</span>
+  </div>
+</div>
 
-      <section class="status">
-        <h3>STATUS DO INDIVÍDUO</h3>
-        <p>Relacionamento: <span class="green">🟢 ABERTO A RELACIONAMENTO</span></p>
-        <p>Disponibilidade: <span class="green">🟢 Possível</span></p>
-        <p>Interesse em conhecer alguém: <span class="green">🟢 Confirmado</span></p>
-        <p>Nível de vergonha por ter criado este site: <span class="red">🔴 Em níveis preocupantes</span></p>
-      </section>
+<!-- progress dots nav -->
+<nav class="world-nav" aria-label="Navegação entre seções">
+  <a href="#abertura" data-label="Início"></a>
+  <a href="#sonic" data-label="Velocidade"></a>
+  <a href="#metal" data-label="Rock"></a>
+  <a href="#geek" data-label="Geek"></a>
+  <a href="#basquete" data-label="Basquete"></a>
+  <a href="#animais" data-label="Animais"></a>
+  <a href="#sobre" data-label="Sobre"></a>
+  <a href="#namorado" data-label="Namorado"></a>
+  <a href="#final" data-label="Fim"></a>
+</nav>
 
-      <div class="disclaimer">
-        <p><strong>Se você está solteira, prossiga.</strong></p>
-        <p><strong>Se está em um relacionamento, prossiga por sua própria conta e risco.</strong></p>
-        <p><strong>Se está casada, nós recomendamos fechar esta aba imediatamente.</strong></p>
-        <p>O departamento jurídico não se responsabiliza.</p>
-      </div>
+<!-- ================= GATE (TRIAGEM) ================= -->
+<section id="gate" class="world world-gate">
+  <div class="gate-stars"></div>
+  <div class="gate-scan"></div>
+  <div class="gate-content">
+    <p class="gate-topbar">⚠ AVISO DE CLASSIFICAÇÃO ⚠ &nbsp;—&nbsp; APENAS PARA SOLTEIRAS &nbsp;—&nbsp; 100% LIVRE DE VÍRUS*</p>
+    <h1 class="gate-title blink">ATENÇÃO</h1>
+    <h2 class="gate-sub">"Este site foi desenvolvido especialmente para garotas solteiras."</h2>
 
-      <div class="modal-actions">
-        <button id="btn-single" class="btn primary">SOU SOLTEIRA, PODE CONTINUAR</button>
-        <button id="btn-not-single" class="btn secondary">NÃO SOU SOLTEIRA</button>
-      </div>
+    <div class="status-console">
+      <p class="status-console-title">■ STATUS DO INDIVÍDUO ■</p>
+      <div class="status-line"><span>Relacionamento:</span><b class="dotline green">● ABERTO A RELACIONAMENTO</b></div>
+      <div class="status-line"><span>Disponibilidade:</span><b class="dotline green">● Imediata</b></div>
+      <div class="status-line"><span>Interesse em conhecer alguém:</span><b class="dotline green">● Sem dúvida</b></div>
+      <div class="status-line"><span>Resquisitos:</span><b class="dotline red">● Respirar (opcional)</b></div>
+    </div>
+
+    <div class="gate-legal">
+      <p><strong>Se você está solteira,</strong> prossiga.</p>
+      <p>Se está em um relacionamento pedimos que feche esta aba imediatamente.</p>
+      <p class="legal-fine">O departamento jurídico não se responsabiliza.</p>
+    </div>
+
+    <div class="gate-buttons">
+      <button id="btnSingle" class="btn-gate-yes">[ SOU SOLTEIRA, PODE CONTINUAR ]</button>
+      <button id="btnTaken" class="btn-gate-no">[ NÃO SOU SOLTEIRA ]</button>
+    </div>
+
+    <div class="hit-counter">
+      <span class="hit-label">VISITANTES SOLTEIRAS DETECTADAS:</span>
+      <span class="hit-digits" id="hitCounter">000000</span>
     </div>
   </div>
+</section>
 
-  <!-- INTRO -->
-  <main id="main-content" class="hidden">
-    <section id="intro" class="center-screen">
-      <div class="intro-inner">
-        <h1>Então você quer saber quem é o Guilherme?</h1>
-        <p class="pause">Excelente decisão.</p>
-        <p class="muted">Ou uma decisão questionável. Mas agora já estamos aqui.</p>
-        <button id="btn-meet" class="btn primary big">CONHECER O CANDIDATO</button>
+<!-- ================= BLOQUEADO ================= -->
+<section id="blocked" class="world world-blocked">
+  <div class="blocked-content">
+    <p class="blocked-code">ERRO 402 — ACESSO NEGADO</p>
+    <h1 class="blink">ACESSO BLOQUEADO</h1>
+    <p>Este conteúdo é destinado exclusivamente a visitantes solteiras.</p>
+    <p>Nossos advogados, sua paz mental e a integridade do seu relacionamento agradecem.</p>
+    <p class="blocked-joke">(Sim, nós levamos isso a sério.)</p>
+    <div class="blocked-bar">ACESSO NEGADO • ACESSO NEGADO • ACESSO NEGADO • ACESSO NEGADO •</div>
+  </div>
+</section>
+
+<!-- ================= ABERTURA ================= -->
+<section id="abertura" class="world world-abertura">
+  <div class="crt-overlay"></div>
+  <div class="scanline"></div>
+  <div class="abertura-content">
+    <p class="typewriter-line line-1"></p>
+    <p class="typewriter-line line-2"></p>
+    <p class="typewriter-line line-3"></p>
+    <p class="typewriter-line line-4"></p>
+    <button class="btn-abertura" id="btnConhecer" tabindex="-1">
+      <span>[ CONHECER O CANDIDATO ]</span>
+    </button>
+  </div>
+  <div class="abertura-photo">
+    <img src="images/abertura.jpg" alt="Guilherme, o primeiro Bagugador, sentado em uma sala de servidores">
+  </div>
+</section>
+
+<!-- ================= SEÇÃO 1: SONIC ================= -->
+<section id="sonic" class="world world-sonic">
+  <div class="sonic-overlay"></div>
+  <div class="ring ring-a">◯</div>
+  <div class="ring ring-b">◯</div>
+  <div class="ring ring-c">◯</div>
+  <div class="ring ring-d">◯</div>
+  <div class="ring ring-e">◯</div>
+
+  <div class="world-inner sonic-inner reveal">
+    <p class="eyebrow-sonic">OK, MAS DO QUE ELE GOSTA?</p>
+    <p class="sonic-line r-1">Pode não parecer...</p>
+    <p class="sonic-line r-2">...mas diante de você está o</p>
+    <h2 class="sonic-title r-3">MAIOR AMANTE DE VELOCIDADE</h2>
+    <p class="sonic-line r-4">Fã nº 1 de Sonic. Nível: Ouriçado de carteirinha.</p>
+    <p class="sonic-line r-5">Se quiser ficar as próximas 5 horas da sua vida ocupada, é só perguntar a lore do Sonic pra ele.</p>
+    <p class="sonic-line sonic-flirt r-5">Ponto positivo para encontros: assunto nunca vai faltar.</p>
+
+    <div class="warning-sign r-6">
+      <span class="warning-icon">⚠</span>
+      <div>
+        <strong>ASSUNTO PROIBIDO</strong>
+        <p>"Mas afinal, quem é o Sonic?" — essa pergunta pode iniciar uma explicação de duração indeterminada.</p>
       </div>
-    </section>
+    </div>
 
-    <!-- PÁGINA PRINCIPAL -->
-    <section id="presentation" class="container">
-      <!-- hero com background sonic (usa sonic.jpg já presente no repo) -->
-      <header class="hero" style="background-image: url('quem-e-esse-cara/images/sonic.jpg');">
-        <div class="hero-overlay">
-          <h2 class="hero-title">Apresentação Oficial de Guilherme</h2>
-          <p class="hero-sub">Uma cantada tecnológica extremamente elaborada</p>
-        </div>
-      </header>
+    <div class="rating-block r-6">
+      <span>POTENCIAL PARA CONVERSAS ALEATÓRIAS</span>
+      <div class="rating-bar"><i style="width:100%"></i></div>
+      <b>100%</b>
+    </div>
+  </div>
+</section>
 
-      <!-- OK, MAS DO QUE ELE GOSTA? -->
-      <section class="card">
-        <h3>OK, MAS DO QUE ELE GOSTA?</h3>
+<!-- ================= SEÇÃO 2: METAL ================= -->
+<section id="metal" class="world world-metal">
+  <div class="metal-smoke"></div>
+  <div class="stage-lights">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
 
-        <article id="sonic" class="feature">
-          <h2>PODE NÃO PARECER...</h2>
-          <h3>...MAS DIANTE DE VOCÊ ESTÁ O MAIOR AMANTE DE VELOCIDADE.</h3>
-          <h4>FÃ Nº 1 DE SONIC.</h4>
-          <p>Se quiser ficar as próximas 5 horas da sua vida ocupada, é só perguntar a lore de Sonic para ele.</p>
-          <p>Ponto positivo para encontros: assunto nunca vai faltar.</p>
-          <p><strong>POTENCIAL PARA CONVERSAS ALEATÓRIAS:</strong> <span class="bar">██████████ 100%</span></p>
-        </article>
+  <div class="world-inner metal-inner reveal">
+    <p class="eyebrow-metal">ANTES DE DECIDIR QUALQUER COISA SAIBA...</p>
+    <h2 class="metal-title">ELE É DO ROCK?</h2>
+    <p class="metal-answer">SIM.</p>
 
-        <article id="rock" class="feature">
-          <h2>ELE É DO ROCK?</h2>
-          <h3>SIM.</h3>
-          <ul class="list-inline">
-            <li>Toca bateria.</li>
-            <li>Ouve Metal (Slipknot, Slayer, Morbid Angel).</li>
-            <li>Música favorita: Painkiller — Judas Priest.</li>
-          </ul>
-          <h4>MAS CALMA.</h4>
-          <h5>ELE TAMBÉM TOCA UKULELE.</h5>
-          <p>Porque aparentemente ele precisava provar que consegue ser tranquilo.</p>
-          <p><strong>POTENCIAL PARA UMA NOITE DE MÚSICA:</strong> ★★★★★</p>
-        </article>
+    <div class="metal-photo-frame">
+      <img src="images/metal.jpg" alt="Guilherme tocando bateria em um show de metal com pirotecnia">
+      <span class="metal-caption">toca bateria.</span>
+    </div>
 
-        <article id="geek" class="feature">
-          <h2>ELE É GEEK?</h2>
-          <h3>Consideravelmente.</h3>
-          <ul>
-            <li>RPG Old School (jogo preferido: Old Dragon — classe favorita: Ladino)</li>
-            <li>Metroidvanias</li>
-            <li>Colecionador de quadrinhos — NÃO PERGUNTE SUA OPINIÃO SOBRE ALAN MOORE</li>
-            <li>Apreciador de animações — Samurai Jack sempre será a melhor</li>
-          </ul>
-          <p>Se você também gosta dessas coisas, temos um problema: vamos ter assunto demais.</p>
-        </article>
+    <div class="metal-band-list">
+      <p class="metal-sub">Ouve todo tipo de Metal. Sem meio-termo.</p>
+      <ul class="band-tags">
+        <li>Slipknot</li>
+        <li>Slayer</li>
+        <li>Morbid Angel</li>
+      </ul>
+    </div>
 
-        <article id="basquete" class="feature">
-          <h2>ELE É BASQUETEIRO?</h2>
-          <h3>Ele tenta.</h3>
-          <p>Frequentador assíduo dos rachões de basquete da UNASP-SP.</p>
-          <p>Altura: 1,65m · Arremesso de três: Em desenvolvimento. Tabela: Não vamos comentar. Determinação: 100%.</p>
-          <p>Ser café com leite não impede ninguém de tentar — pelo menos você nunca vai precisar fingir que está impressionada com uma enterrada.</p>
-        </article>
+    <div class="confidential">
+      <p class="confidential-label">◼ INFORMAÇÃO CONFIDENCIAL ◼</p>
+      <p class="confidential-q">Música favorita?</p>
+      <p class="confidential-a">"Painkiller" — Judas Priest</p>
+    </div>
 
-        <article id="animals" class="feature">
-          <h2>GREEN FLAG?</h2>
-          <h3>ELE AMA ANIMAIS.</h3>
-          <p>Tem <strong>Amy Rose</strong> (gata) e <strong>Peach</strong> (cachorra).</p>
-          <div class="gallery">
-            <img src="quem-e-esse-cara/images/amy-rose.jpg" alt="Amy Rose (gata)" />
-            <img src="quem-e-esse-cara/images/peach.jpg" alt="Peach (cachorra)" />
-          </div>
-          <p>Tem seis animais antes — agora somente Amy Rose e Peach. Você vai precisar conquistar a Amy Rose primeiro; ela é a verdadeira responsável pela aprovação.</p>
-        </article>
+    <div class="ukulele-twist">
+      <p class="twist-line">Mas calma.</p>
+      <p class="twist-line">Ele também toca <strong>ukulele</strong>.</p>
+      <p class="twist-note">Porque ele gosta de um som tropical as vezes</p>
+    </div>
 
-        <article id="future" class="feature">
-          <h2>ELE TEM PLANOS PARA O FUTURO?</h2>
-          <h3>Tem.</h3>
-          <p><strong>OBJETIVO DESBLOQUEADO:</strong> PENTESTER PROFISSIONAL</p>
-          <p>Está se preparando para trabalhar com testes de intrusão e segurança da informação. Estética: futurista / cyberpunk.</p>
-          <p><strong>Ambição:</strong> █████████░ · <strong>Curiosidade:</strong> ██████████ · <strong>Projetos paralelos:</strong> ██████████</p>
-        </article>
-      </section>
+    <div class="rating-block stars-block">
+      <span>POTENCIAL PARA UMA NOITE DE MÚSICA</span>
+      <span class="stars">★★★★★</span>
+    </div>
+  </div>
+</section>
 
-      <!-- MAS ELE SERVIRIA COMO NAMORADO? -->
-      <section class="card">
-        <h2>MÁS ELE SERVIRIA COMO NAMORADO?</h2>
+<!-- ================= SEÇÃO 3: GEEK ================= -->
+<section id="geek" class="world world-geek">
+  <div class="geek-scanlines"></div>
+  <div class="world-inner geek-inner reveal">
+    <p class="eyebrow-geek">ELE É GEEK?</p>
+    <h2 class="geek-title">CONSIDERAVELMENTE.</h2>
+
+    <div class="geek-grid">
+
+      <div class="geek-card rpg-sheet">
+        <p class="card-tag">RPG OLD SCHOOL</p>
+        <img src="images/old_dragon.webp" alt="Arte de RPG old school com aventureiros enfrentando um dragão">
         <div class="sheet">
-          <p>CONVERSA: ★★★★★</p>
-          <p>HUMOR: ★★★★☆</p>
-          <p>FIDELIDADE: Esperamos sinceramente que ★★★★★</p>
-          <p>ROMANTISMO: Em avaliação.</p>
-          <p>SABE OUVIR: Provavelmente.</p>
-          <p>MANDA MEME: Altíssima probabilidade.</p>
-          <p>FAZ PLANOS ESTRANHOS: ★★★★★</p>
-          <p>NORMALIDADE: ★★☆☆☆</p>
-          <p>Não podemos garantir o homem dos seus sonhos. Mas podemos garantir assunto aleatório.</p>
+          <p class="sheet-row"><span>SISTEMA</span> Old Dragon</p>
+          <p class="sheet-row"><span>CLASSE FAVORITA</span> Ladino</p>
+          <p class="sheet-row"><span>D20</span> Sempre à mão</p>
         </div>
-      </section>
+        <p class="card-desc">Gosta de RPGs old school. Já foi mestre de campanha. Adora um horror cósmico em aventuras.</p>
+      </div>
 
-      <!-- EVIDÊNCIAS -->
-      <section class="card gallery-card">
-        <h2>EVIDÊNCIAS</h2>
-        <p>Porque qualquer homem pode escrever uma descrição bonita sobre si mesmo. Nós temos provas.</p>
-        <div class="evidence-grid">
-          <!-- utiliza imagens já existentes quando possível -->
-          <img src="quem-e-esse-cara/images/sonic.jpg" alt="Guilherme - fã de Sonic" />
-          <img src="quem-e-esse-cara/images/metal.jpg" alt="Guilherme tocando bateria" />
-          <img src="quem-e-esse-cara/images/ukulele.jpg" alt="Guilherme tocando ukulele" />
-          <img src="quem-e-esse-cara/images/basquete.jpg" alt="Guilherme jogando basquete" />
-          <img src="quem-e-esse-cara/images/rpg.jpg" alt="Guilherme jogando RPG" />
-          <img src="quem-e-esse-cara/images/cybersecurity.jpg" alt="Guilherme em ambiente de cybersecurity" />
-          <img src="quem-e-esse-cara/images/final.jpg" alt="Foto final mais bonita e genuína" />
+      <div class="geek-card metroid-map">
+        <p class="card-tag">METROIDVANIAS</p>
+        <img src="images/castlevania.jpeg" alt="Diálogo do jogo Castlevania: Aria of Sorrow com o personagem Morte">
+        <p class="card-desc">Amante de Metroidvanias.</p>
+        <p class="science-fact">Já zerou, Castlevania: Aria of Sorrow, Castlevania: Symphony of the Night, Dead Cells, Hollow Knight, Blasphemous, Bloodstained: Ritual of the Night, entre outros</p>
+      </div>
+
+      <div class="geek-card comics-wall">
+        <p class="card-tag">QUADRINHOS</p>
+        <img src="images/quadrinhos.jpg" alt="Guilherme sentado em uma biblioteca cheia de quadrinhos, lendo Action Comics">
+        <p class="card-desc">Colecionador apaixonado de quadrinhos.</p>
+        <p class="danger-note">⚠ Não pergunte sua opinião sobre Alan Moore.</p>
+      </div>
+
+      <div class="geek-card animation-tv">
+        <p class="card-tag">ANIMAÇÕES</p>
+        <img src="images/samurai_jack.jpg" alt="Ilustração de Samurai Jack sob uma árvore vermelha">
+        <p class="card-desc">Apreciador de animações variadas.</p>
+        <p class="science-fact">FATO CIENTÍFICO: Samurai Jack sempre será a melhor.</p>
+      </div>
+
+    </div>
+
+    <p class="geek-flirt">Se você também gosta dessas coisas, temos um problema. Vamos ter assunto demais.</p>
+  </div>
+</section>
+
+<!-- ================= SEÇÃO 4: BASQUETE ================= -->
+<section id="basquete" class="world world-basquete">
+  <div class="court-lines"></div>
+  <div class="world-inner basquete-inner reveal">
+    <p class="eyebrow-basquete">ELE É BASQUETEIRO?</p>
+    <h2 class="basquete-title">ELE TENTA.</h2>
+    <p class="basquete-sub">Frequentador assíduo dos rachões de basquete da UNASP-SP.</p>
+
+    <div class="basquete-layout">
+      <div class="player-card">
+        <img src="images/basquete.jpg" alt="Carta de jogador estilo Panini Prizm do Guilherme arremessando">
+        <div class="scoreboard">
+          <span>QUADRA 01</span>
+          <span class="clock">24"</span>
         </div>
-      </section>
+      </div>
 
-      <!-- CTA FINAL -->
-      <section class="card cta">
-        <h2>OK. VOCÊ JÁ SABE BASTANTE.</h2>
-        <p>Mas talvez ainda não saiba o suficiente. Quer descobrir pessoalmente?</p>
-        <div class="ctas">
-          <button class="btn disabled strike" disabled>COMPRE MEU CURSO</button>
-          <a class="btn primary" id="wa-cta" href="https://wa.me/5511977678752?text=Ent%C3%A3o+voc%C3%AA+%C3%A9+o+Guilherme%3F" target="_blank" rel="noopener noreferrer">ENTRE EM CONTATO</a>
-        </div>
+      <div class="stats-sheet">
+        <div class="stat-row"><span>ALTURA</span><strong>1,65m</strong></div>
+        <div class="stat-row"><span>ARREMESSO DE 3</span><strong>Em desenvolvimento...</strong></div>
+        <div class="stat-row"><span>TABELA</span><strong>Não vamos comentar.</strong></div>
+        <div class="stat-row"><span>DETERMINAÇÃO</span><strong>100%</strong></div>
+      </div>
+    </div>
 
-        <footer class="final-note">
-          <p>Obrigado por dedicar alguns minutos da sua vida para conhecer um cara que poderia simplesmente ter dito \"oi\".</p>
-          <h4>Agora a decisão é sua.</h4>
-          <p>Boa sorte para nós dois.</p>
-          <p class="signature">— Guilherme</p>
-        </footer>
-      </section>
-    </section>
-  </main>
+    <div class="basquete-punchline">
+      <p>1,65m. Não sabe fazer tabela direito. Não consegue arremessar de três.</p>
+      <p class="por-enquanto">POR ENQUANTO.</p>
+      <p class="cafe-com-leite">Mas ser café com leite não impede ele de tentar.</p>
+      <p class="basquete-flirt">Pelo menos você nunca vai precisar fingir que está impressionada com uma enterrada.</p>
+    </div>
 
-  <script src="quem-e-esse-cara/js/script.js"></script>
+    <button class="shoot-btn" id="shootBtn" aria-label="Tentar arremesso">🏀 tentar arremesso</button>
+    <p class="shoot-result" id="shootResult"></p>
+  </div>
+</section>
+
+<!-- ================= SEÇÃO 5: ANIMAIS ================= -->
+<section id="animais" class="world world-animais">
+  <div class="paw-field"></div>
+  <div class="world-inner animais-inner reveal">
+    <p class="eyebrow-animais">GREEN FLAG?</p>
+    <h2 class="animais-title">ELE AMA ANIMAIS.</h2>
+    <p class="animais-sub">Tem mais três cachorros na família</p>
+    <p class="animais-note">Mas ele só tem de fato essas duas fofuras</p>
+
+    <div class="pet-grid pet-grid-small">
+      <div class="pet-card">
+        <div class="pet-photo pet-photo-real"><img src="images/peach.jpg" alt="Peach, a cachorra do Guilherme"></div>
+        <p class="pet-name">Peach Storm</p>
+        <p class="pet-species">Cachorra</p>
+        <div class="pet-bar"><span>Fofura</span><div class="track"><i style="width:100%"></i></div></div>
+        <div class="pet-bar"><span>Caos</span><div class="track"><i style="width:40%"></i></div></div>
+      </div>
+
+      <div class="pet-card pet-card-cat">
+        <p class="pet-flag">A PODEROSA GATONA</p>
+        <div class="pet-photo pet-photo-real"><img src="images/gato.jpg" alt="Amy Rose, a gata do Guilherme, sentada em cima de uma bicicleta"></div>
+        <p class="pet-name">Amy Rose</p>
+        <p class="pet-species">Gata</p>
+        <div class="pet-bar"><span>Fofura</span><div class="track"><i style="width:100%"></i></div></div>
+        <div class="pet-bar"><span>Caos</span><div class="track"><i style="width:99%"></i></div></div>
+      </div>
+    </div>
+
+    <p class="animais-flirt">Isso provavelmente conta como green flag.</p>
+    <div class="amy-warning">
+      <p class="amy-warning-title">Mas existe um pequeno problema.</p>
+      <p>Você vai precisar conquistar a Peach primeiro.</p>
+      <p class="amy-warning-fine">Ela é quem realmente aprova as futuras pretendentes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SEÇÃO 6: SOBRE ELE ================= -->
+<section id="sobre" class="world world-sobre">
+  <div class="sobre-stars"></div>
+  <div class="world-inner sobre-inner reveal">
+    <p class="eyebrow-sobre">TÁ, O QUE MAIS TEM SOBRE ELE ?</p>
+
+    <div class="sobre-grid">
+      <div class="sobre-card sobre-card-sm">
+        <p class="sobre-label">COR FAVORITA</p>
+        <p class="sobre-value"><span class="swatch swatch-blue"></span> Azul</p>
+      </div>
+
+      <div class="sobre-card sobre-card-sm">
+        <p class="sobre-label">COMIDA FAVORITA</p>
+        <p class="sobre-value">Estrogonofe</p>
+      </div>
+
+      <div class="sobre-card sobre-card-img sobre-card-tall">
+        <p class="sobre-label">SIGNO</p>
+        <div class="sobre-img-box"><img src="images/sargitario.jpg" alt="Cavaleiro de ouro de Sagitário, de Os Cavaleiros do Zodíaco"></div>
+        <p class="sobre-value">Sagitário. O melhor, salvou Atenas do Saga</p>
+      </div>
+
+      <div class="sobre-card sobre-card-img sobre-card-wide">
+        <p class="sobre-label">FILME FAVORITO</p>
+        <div class="sobre-img-box"><img src="images/watchmen.jpg" alt="Pôster do filme Watchmen"></div>
+        <p class="sobre-value">Watchmen</p>
+      </div>
+
+      <div class="sobre-card sobre-card-img sobre-card-tall">
+        <p class="sobre-label">LIVRO FAVORITO</p>
+        <div class="sobre-img-box"><img src="images/tristão.jpg" alt="Pintura de Tristão e Isolda em um navio"></div>
+        <p class="sobre-value">Tristão e Isolda</p>
+      </div>
+
+      <div class="sobre-card sobre-card-sm">
+        <p class="sobre-label">NO TEMPO LIVRE</p>
+        <p class="sobre-value">Toca bateria, lê e faz CTFs.</p>
+      </div>
+
+      <div class="sobre-card sobre-card-sm">
+        <p class="sobre-label">PRÓXIMA META</p>
+        <p class="sobre-value">Terminar de tirar a CNH.</p>
+      </div>
+
+      <div class="sobre-card sobre-card-wide">
+        <p class="sobre-label">META PROFISSIONAL</p>
+        <p class="sobre-value">Trabalhar como testador de penetração. (É um emprego de verdade, pode pesquisar.)</p>
+      </div>
+    </div>
+
+    <div class="sobre-quote">
+      <p>"Definido por muitos como tranquilo... porém excêntrico."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SEÇÃO 7: E COMO NAMORADO? ================= -->
+<section id="namorado" class="world world-namorado">
+  <div class="namorado-bg"></div>
+  <div class="world-inner namorado-inner reveal">
+    <p class="eyebrow-namorado">MAS ELE SERVIRIA COMO</p>
+    <h2 class="namorado-title">NAMORADO?</h2>
+
+    <div class="namorado-card">
+      <div class="namorado-row"><span>CONVERSA</span><b class="stars">★★★★★</b></div>
+      <div class="namorado-row"><span>HUMOR</span><b class="stars">★★★★☆</b></div>
+      <div class="namorado-row"><span>FIDELIDADE</span><b class="stars-text">Esperamos sinceramente que ★★★★★</b></div>
+      <div class="namorado-row"><span>ROMANTISMO</span><b class="stars-text">Em avaliação.</b></div>
+      <div class="namorado-row"><span>SABE OUVIR</span><b class="stars-text">Provavelmente.</b></div>
+      <div class="namorado-row"><span>MANDA MEME</span><b class="stars-text">Sempre.</b></div>
+      <div class="namorado-row"><span>FAZ PLANOS ESTRANHOS</span><b class="stars">★★★★★</b></div>
+      <div class="namorado-row"><span>NORMALIDADE</span><b class="stars">★★☆☆☆</b></div>
+    </div>
+
+    <p class="namorado-disclaimer">Não podemos garantir que ele seja o homem dos seus sonhos.</p>
+    <p class="namorado-disclaimer-2">Mas podemos garantir que ele provavelmente tem algum assunto aleatório para conversar.</p>
+  </div>
+</section>
+
+<!-- ================= FINAL ================= -->
+<section id="final" class="world world-final">
+  <div class="world-inner final-inner reveal">
+    <p class="final-lead">OK.</p>
+    <h2 class="final-title">VOCÊ JÁ SABE BASTANTE.</h2>
+    <p class="final-mid">Mas talvez ainda não saiba o suficiente.</p>
+    <p class="final-question">Quer descobrir pessoalmente?</p>
+
+    <div class="final-buttons">
+      <button class="btn-broken" id="btnCurso">
+        COMPRE MEU CURSO
+        <span class="broken-tooltip">Curso indisponível. Eu não sei o que estaria ensinando.</span>
+      </button>
+      <a class="btn-real" id="btnContato" href="https://wa.me/5511977678752?text=Oi%2C%20eu%20sobrevivi%20ao%20seu%20site.%20Acho%20que%20isso%20merece%20uma%20conversa." target="_blank" rel="noopener">
+        ENTRAR EM CONTATO
+      </a>
+    </div>
+
+    <div class="final-proof">
+      <div class="final-proof-text">
+        <p class="final-thanks">Obrigado por dedicar alguns minutos da sua vida para conhecer um cara que poderia simplesmente ter dito "oi".</p>
+        <p class="final-now">Agora a decisão é sua.</p>
+        <p class="final-luck">Boa sorte.</p>
+        <p class="final-signature">— Equipe de Marketing do Guilherme</p>
+      </div>
+
+      <div class="real-photo">
+        <span class="real-photo-note">Inclusive esse e o Guilherme</span>
+        <p class="real-photo-label">SEM FILTROS. SEM IA. SEM EXAGERO.</p>
+        <img src="images/guilherme_sem_IA.jpg" alt="Guilherme, foto real, sem edição de IA">
+        <p class="real-photo-caption">Se vir ele na rua pode dar um oi, as vezes ele não morde</p>
+      </div>
+    </div>
+
+    <a href="#abertura" class="back-to-start">[ VOLTAR AO INÍCIO ]</a>
+  </div>
+</section>
+
+<script src="js/script.js"></script>
 </body>
 </html>
