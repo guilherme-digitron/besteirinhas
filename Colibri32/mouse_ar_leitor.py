@@ -5,8 +5,6 @@ import keyboard
 import time
 import os
 import glob
-
-# --- SELEÇÃO DE MODO ---
 print("=" * 60)
 print("SISTEMA DE MOUSE DE CABEÇA - SELEÇÃO DE CONEXÃO")
 print("=" * 60)
@@ -31,8 +29,6 @@ pyautogui.FAILSAFE = False
 congelado = False
 ultima_digitacao = 0
 TEMPO_GUARDA_DIGITACAO = 0.4
-
-# Inicialização da interface escolhida
 if MODO == "serial":
     try:
         esp32_serial = serial.Serial(PORTA_COM, BAUD_RATE, timeout=0.1)
@@ -49,8 +45,6 @@ else:
     except Exception as e:
         print(f"[Erro Wi-Fi]: {e}")
         exit()
-
-# --- FUNÇÕES ---
 
 def abrir_lista_atalhos():
     pasta_atual = os.path.dirname(os.path.realpath(__file__))
@@ -95,8 +89,6 @@ def ler_coordenadas():
         except socket.timeout:
             return None
     return None
-
-# Mapeamento de Atalhos
 keyboard.on_press(registrar_digitacao)
 keyboard.add_hotkey('ctrl+alt+windows', abrir_lista_atalhos)
 keyboard.add_hotkey('ctrl+alt+r', recalibrar_esp32)
@@ -104,8 +96,6 @@ keyboard.add_hotkey('ctrl+alt', centralizar_cursor)
 keyboard.add_hotkey('ctrl+alt+p', alternar_pausa)
 
 print("Sistema pronto. Opção de transporte ativa:", MODO.upper())
-
-# --- LOOP PRINCIPAL ---
 while True:
     try:
         linha = ler_coordenadas()

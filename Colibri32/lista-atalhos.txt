@@ -6,3 +6,58 @@ ctrl+alt+r - recalibrar_esp32
 ctrl+alt - centralizar_cursor
 
 ctrl+alt+p - alternar_pausa
+
+Windows:
+
+
+
+Chrome:
+
+Ctrl + T para nova guia
+Ctrl + W para fechar guia
+Ctrl + Shift + T para reabrir guia
+Ctrl + Tab / Ctrl + Shift + Tab para alternar entre guias
+Ctrl + número da guia para ir para uma guia especifica
+
+Ctrl + N abre nova janela
+Ctrl + Shift + N abre janela anônima
+Ctrl + L seleciona a barra de endereços
+
+Ctrl + F busca na página de favoritos 
+Ctrl + D salva favoritos
+Ctrl + H abre o histórico
+Ctrl + J mostra os downloads
+
+F11 alterna o modo de tela cheia
+Ctrl + P imprime o conteúdo
+
+
+- notas
+
+criar recalibração constante a cada x tempo parado
+
+falar com um ong sobre isso
+
+
+clique esquerdo e direito simultaneamente centraliza e recalibra o mouse
+
+piscadas simultaneas ativam os atalhos|
+
+calibra
+
+pausa
+
+atalhos
+
+colocar em uma boina por enquanto
+
+aprimoramentos serão feitos durante as ferias
+
+soluçao
+
+scroll, duplo clique rapido ativa e desativa
+
+duplo clique lento entra no menu
+
+esquerda recalibra, direita pausa
+

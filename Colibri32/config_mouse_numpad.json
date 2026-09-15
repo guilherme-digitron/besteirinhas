@@ -1,0 +1,42 @@
+{
+    "velocidade_inicial": 1.0,
+    "velocidade_maxima": 5.0,
+    "fator_aceleracao": 1.35,
+    "atalhos": [
+        {
+            "ferramenta": "Windows / Geral",
+            "atalho": "Ctrl + Alt + Win",
+            "funcao": "Abrir lista de atalhos externa"
+        },
+        {
+            "ferramenta": "Windows / Geral",
+            "atalho": "Ctrl + Alt",
+            "funcao": "Centralizar cursor na tela"
+        },
+        {
+            "ferramenta": "Windows / Geral",
+            "atalho": "Ctrl + Alt + P",
+            "funcao": "Pausar/Despausar mouse numérico"
+        },
+        {
+            "ferramenta": "Numpad Mouse",
+            "atalho": "Num /",
+            "funcao": "Alternar entre botão Esquerdo e Direito"
+        },
+        {
+            "ferramenta": "Numpad Mouse",
+            "atalho": "Num 5",
+            "funcao": "Clique simples"
+        },
+        {
+            "ferramenta": "Numpad Mouse",
+            "atalho": "Num +",
+            "funcao": "Duplo clique"
+        },
+        {
+            "ferramenta": "Numpad Mouse",
+            "atalho": "Shift (segurar)",
+            "funcao": "Modo precisão (velocidade reduzida)"
+        }
+    ]
+}
