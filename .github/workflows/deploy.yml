@@ -1,3 +1,7 @@
+# Vai em: .github/workflows/deploy.yml (na raiz do repositório besteirinhas)
+# O player fica em ipod-player/ e é publicado junto com o resto do repositório,
+# em https://SEU-USUARIO.github.io/besteirinhas/ipod-player/
+
 name: Publicar no GitHub Pages
 
 on:
@@ -24,8 +28,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Gerar data.js a partir da pasta playlists
-        run: python gerar-dados.py
+      - name: Gerar o data.js a partir da pasta playlists
+        run: python ipod-player/gerar-dados.py
 
       - uses: actions/configure-pages@v5
 
