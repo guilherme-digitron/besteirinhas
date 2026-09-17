@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Lê a pasta playlists/ e escreve data.js ao lado do index.html.
-Rode sempre que adicionar ou remover músicas:
+Cada subpasta que contenha áudio vira uma playlist (inclusive subpastas de subpastas).
 
     python gerar-dados.py
 """
@@ -29,49 +29,34 @@ def title_of(filename):
 
 def main():
     if not os.path.isdir(ROOT):
-        sys.exit("Não achei a pasta 'playlists' ao lado deste script.")
+        print("Aviso: não achei a pasta 'playlists'. Nada a fazer.")
+        return
 
     playlists = []
-    for folder in sorted(os.listdir(ROOT), key=natural):
-        path = os.path.join(ROOT, folder)
-        if not os.path.isdir(path):
+    for folder, dirs, files in os.walk(ROOT):
+        dirs.sort(key=natural)
+        audio = sorted((f for f in files if f.lower().endswith(AUDIO)), key=natural)
+        if not audio:
             continue
-        files = sorted(
-            (f for f in os.listdir(path) if f.lower().endswith(AUDIO)), key=natural
-        )
-        if not files:
-            continue
+        rel = os.path.relpath(folder, ROOT).replace(os.sep, "/")
+        name = "Músicas soltas" if rel == "." else rel.replace("/", " / ")
+        prefix = "playlists/" if rel == "." else "playlists/%s/" % rel
         playlists.append(
             {
-                "name": folder,
+                "name": name,
                 "tracks": [
-                    {"title": title_of(f), "src": "playlists/%s/%s" % (folder, f)}
-                    for f in files
+                    {"title": title_of(f), "src": prefix + f} for f in audio
                 ],
             }
         )
 
-    # Áudios soltos direto em playlists/
-    loose = sorted(
-        (f for f in os.listdir(ROOT) if f.lower().endswith(AUDIO)), key=natural
-    )
-    if loose:
-        playlists.insert(
-            0,
-            {
-                "name": "Músicas soltas",
-                "tracks": [
-                    {"title": title_of(f), "src": "playlists/%s" % f} for f in loose
-                ],
-            },
-        )
-
     if not playlists:
-        sys.exit("Nenhum áudio encontrado dentro de 'playlists'.")
+        print("Aviso: nenhum áudio encontrado dentro de 'playlists'.")
+        return
 
-    out = "window.PLAYLISTS = %s;\n" % json.dumps(
-        playlists, ensure_ascii=False, indent=2
-    )
+    playlists.sort(key=lambda p: natural(p["name"]))
+
+    out = "window.PLAYLISTS = %s;\n" % json.dumps(playlists, ensure_ascii=False, indent=2)
     with open(os.path.join(BASE, "data.js"), "w", encoding="utf-8") as fh:
         fh.write(out)
 
