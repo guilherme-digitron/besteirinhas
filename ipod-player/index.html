@@ -345,7 +345,7 @@
     (function nextOne(){
       if(i >= pending.length){ renderList(); return; }
       var t = pending[i++], probe = new Audio();
-      var go = function(){ probe.src = ''; nextOne(); };
+      var go = function(){ probe.removeAttribute('src'); nextOne(); };
       probe.preload = 'metadata';
       probe.onloadedmetadata = function(){ t.dur = probe.duration || 0; go(); };
       probe.onerror = go;
@@ -365,7 +365,7 @@
     document.getElementById('nowSub').textContent = lists[l].name;
     document.title = tr.title + ' — Tocador';
     media(tr.title, lists[l].name);
-    if(play) audio.play().catch(function(){});
+    if(play) audio.play().catch(function(err){ showError('Não consegui tocar: ' + err.message); });
     renderList();
   }
   function toggle(){ audio.paused ? audio.play().catch(function(){}) : audio.pause(); }
@@ -380,7 +380,17 @@
   var pauseIcon = '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M4 2h3v12H4zM9 2h3v12H9z"/></svg>';
   var playBtn = document.getElementById('play');
 
-  audio.addEventListener('play', function(){ playBtn.innerHTML = pauseIcon; playBtn.title = 'Pausar'; });
+  function showError(msg){
+    var el = document.getElementById('nowSub');
+    el.textContent = msg;
+    el.style.color = '#E5896B';
+  }
+  audio.addEventListener('error', function(){
+    var codes = {1:'carregamento cancelado',2:'falha de rede',3:'não consegui decodificar o arquivo (pode estar corrompido ou não ser um áudio de verdade)',4:'formato não suportado ou arquivo não encontrado nesse caminho'};
+    var c = audio.error && audio.error.code;
+    showError('Erro ao carregar o áudio: ' + (codes[c] || 'desconhecido') + '.');
+  });
+  audio.addEventListener('play', function(){ playBtn.innerHTML = pauseIcon; playBtn.title = 'Pausar'; document.getElementById('nowSub').style.color = ''; });
   audio.addEventListener('pause', function(){ playBtn.innerHTML = playIcon; playBtn.title = 'Tocar'; save(); });
   audio.addEventListener('loadedmetadata', function(){
     document.getElementById('dur').textContent = hhmmss(audio.duration);
