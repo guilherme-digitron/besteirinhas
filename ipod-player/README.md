@@ -2,12 +2,6 @@
 
 Player de áudio local que funciona abrindo o `index.html` direto do disco, sem servidor.
 
-## Por que as músicas não tocavam
-
-O código antigo lia as playlists com `fetch('playlists/manifest.json')`. Em `file://`, Chrome e Firefox
-tratam cada arquivo local como uma origem diferente, então qualquer `fetch`/`XHR` é barrado — é exatamente
-o erro de CORS que apareceu. O JSON estar válido não muda nada: o navegador nem chega a lê-lo.
-
 Tags como `<script>` e `<audio>` **não** passam por essa checagem. Por isso o tocador agora recebe a lista
 de faixas por um `data.js` (um `<script>`) e toca os arquivos por caminho relativo.
 
