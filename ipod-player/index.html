@@ -199,7 +199,8 @@
   var main  = document.getElementById('main');
   var bar   = document.getElementById('bar');
   var lists = [];          // [{name, tracks:[{title, src, dur}]}]
-  var li = 0, ti = -1;     // playlist / faixa atuais
+  var li = 0;              // playlist aberta na tela
+  var pli = -1, ti = -1;   // playlist / faixa tocando agora
   var rates = [1, 1.25, 1.5, 1.75, 2], ri = 0;
 
   /* ---------- memória de progresso ---------- */
@@ -304,7 +305,7 @@
     var rows = pl.tracks.map(function(t,i){
       var saved = store.get(key(li,i)) || {};
       var frac = saved.done ? 1 : (t.dur && saved.t ? Math.min(saved.t/t.dur,1) : 0);
-      var state = i === ti ? 'playing' : (saved.done ? 'done' : '');
+      var state = (li === pli && i === ti) ? 'playing' : (saved.done ? 'done' : '');
       return '<li><button class="row" data-i="' + i + '" data-state="' + state + '">' +
                '<span class="n">' + String(i+1).padStart(2,'0') + '</span>' +
                '<span class="t">' + esc(t.title) + '</span>' +
@@ -320,10 +321,18 @@
       '</header><ol class="tracks">' + rows + '</ol>';
 
     main.querySelectorAll('.row').forEach(function(b){
-      b.onclick = function(){ var i = +b.dataset.i; (i === ti) ? toggle() : load(li, i, true); };
+      b.onclick = function(){
+        var i = +b.dataset.i;
+        (li === pli && i === ti) ? toggle() : load(li, i, true);
+      };
     });
     main.querySelectorAll('.chip').forEach(function(b){
-      b.onclick = function(){ li = +b.dataset.pl; measure(); renderList(); };
+      b.onclick = function(){
+        li = +b.dataset.pl;
+        store.set('ultima', lists[li].name);
+        renderList(); measure();
+        window.scrollTo({top:0, behavior:'smooth'});
+      };
     });
   }
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]; }); }
@@ -346,7 +355,7 @@
 
   /* ---------- tocar ---------- */
   function load(l, t, play){
-    li = l; ti = t;
+    li = l; pli = l; ti = t;
     var tr = lists[l].tracks[t];
     audio.src = tr.src;
     audio.playbackRate = rates[ri];
@@ -363,7 +372,8 @@
   function step(d){ if(isFinite(audio.duration)) audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + d)); }
   function jump(d){
     var n = ti + d;
-    if(n >= 0 && n < lists[li].tracks.length) load(li, n, true);
+    if(pli < 0) return;
+    if(n >= 0 && n < lists[pli].tracks.length) load(pli, n, true);
   }
 
   var playIcon = '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg>';
@@ -374,7 +384,9 @@
   audio.addEventListener('pause', function(){ playBtn.innerHTML = playIcon; playBtn.title = 'Tocar'; save(); });
   audio.addEventListener('loadedmetadata', function(){
     document.getElementById('dur').textContent = hhmmss(audio.duration);
-    if(ti > -1 && !lists[li].tracks[ti].dur) lists[li].tracks[ti].dur = audio.duration;
+    if(pli > -1 && ti > -1 && !lists[pli].tracks[ti].dur){
+      lists[pli].tracks[ti].dur = audio.duration;
+    }
   });
   audio.addEventListener('timeupdate', function(){
     var p = audio.duration ? audio.currentTime / audio.duration : 0;
@@ -383,13 +395,14 @@
     if(Math.floor(audio.currentTime) % 5 === 0) save();
   });
   audio.addEventListener('ended', function(){
-    if(ti > -1) store.set(key(li,ti), {t:0, done:true});
-    if(ti < lists[li].tracks.length - 1) load(li, ti+1, true); else renderList();
+    if(pli < 0) return;
+    store.set(key(pli,ti), {t:0, done:true});
+    if(ti < lists[pli].tracks.length - 1) load(pli, ti+1, true); else renderList();
   });
   function save(){
-    if(ti < 0 || !audio.duration) return;
+    if(pli < 0 || ti < 0 || !audio.duration) return;
     var done = audio.currentTime > audio.duration - 15;
-    store.set(key(li,ti), {t: done ? 0 : audio.currentTime, done: done});
+    store.set(key(pli,ti), {t: done ? 0 : audio.currentTime, done: done});
   }
   window.addEventListener('beforeunload', save);
 
@@ -489,7 +502,11 @@
 
   /* ---------- início ---------- */
   function boot(){
-    if(fromData()){ renderList(); measure(); }
+    if(fromData()){
+      var last = store.get('ultima');
+      lists.forEach(function(p,i){ if(p.name === last) li = i; });
+      renderList(); measure();
+    }
     else renderEmpty();
   }
   if(location.protocol.indexOf('http') === 0 && !window.PLAYLISTS){
